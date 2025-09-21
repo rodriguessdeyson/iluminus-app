@@ -24,15 +24,12 @@
         android:layout_width="315dp"
         android:layout_height="320dp"
         android:layout_marginTop="84dp"
-        app:alpha_selector="0.8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextViewTitle"
-        app:palette="@drawable/color_picker"
-        app:selector="@drawable/wheel">
+        app:layout_constraintTop_toBottomOf="@+id/TextViewTitle">
 
     </com.skydoves.colorpickerview.ColorPickerView>
 
@@ -160,7 +157,7 @@
         android:rotation="45"
         app:backgroundTint="@color/indigo_500"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_c1onstraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LinearLayoutTools"

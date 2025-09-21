@@ -1,126 +1,145 @@
 package com.rad.iluminus;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.WindowManager;
-import android.widget.Button;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.rad.Bluetooth.BluetoothHandler;
-import com.rad.Database.DatabaseAccess;
-import com.rad.Utils.Lumos;
+import android.view.View;
 
-/**
- * Main class of the application.
- */
-public class MainActivity extends AppCompatActivity
-{
-	//region Views
+import androidx.core.app.ActivityCompat;
+import androidx.navigation.NavArgument;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
-	/**
-	 * Button Setup bluetooth reference.
-	 */
-	private Button ButtonBluetooth;
+import com.rad.iluminus.databinding.ActivityMainBinding;
 
-	/**
-	 * Button Setup blynk reference.
-	 */
-	private Button ButtonBlynk;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-	//endregion
+public class MainActivity extends AppCompatActivity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		// Set screens to all configuration.
-		SetScreenSettings();
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_main);
+    private ActivityResultLauncher<Intent> enableBluetoothLauncher;
+    private AppBarConfiguration appBarConfiguration;
+    private ActivityMainBinding binding;
 
-		// Initialize all controls.
-		StartViewContents();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		// Method to treat all events.
-		ControlsEvent();
-	}
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-	/**
-	 * Method to configure users app interface.
-	 */
-	@SuppressLint("SourceLockedOrientationActivity")
-	private void SetScreenSettings()
-	{
-		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-	}
+        setSupportActionBar(binding.toolbar);
 
-	/**
-	 * Method to initiate all view controllers.
-	 */
-	private void StartViewContents()
-	{
-		ButtonBluetooth = findViewById(R.id.ButtonBluetooth);
-		ButtonBlynk = findViewById(R.id.ButtonBlynk);
-	}
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitleEnabled(true);
 
-	/**
-	 * Manipulate all events.
-	 */
-	private void ControlsEvent()
-	{
-		/*
-		  Event triggered when the Blynk button is pressed.
-		*/
-		ButtonBlynk.setOnClickListener(v -> RunBlynkConfiguration());
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-		/*
-		  Event triggered when the Bluetooth button is pressed.
-		*/
-		ButtonBluetooth.setOnClickListener(v -> RunBluetoothConfiguration());
-	}
+        navController.addOnDestinationChangedListener((navController1, navDestination, bundle) ->
+        {
+            binding.toolbar.setTitle(navDestination.getLabel());
+            collapsingToolbarLayout.setTitle(navDestination.getLabel());
 
-	/**
-	 * Run the configuration.
-	 */
-	private void RunBlynkConfiguration()
-	{
-		// Checks if blynk devices are configured.
-		DatabaseAccess dbAccess = new DatabaseAccess(this, getString(R.string.DatabaseName));
-		Intent startActivity;
-		if (dbAccess.ReadBlynkConfiguration().size() == 0)
-			// Intent to initialize other activities.
-			startActivity = new Intent(MainActivity.this, BlynkConnection.class);
-		else
-			// Intent to initialize other activities.
-			startActivity = new Intent(MainActivity.this, IluminusBlynkActivity.class);
-		startActivity(startActivity);
-	}
+            NavArgument nArg = navDestination.getArguments().get("enable_fab");
+            if (nArg != null)
+                binding.FABSearchDevices.setVisibility((Boolean)nArg.getDefaultValue() ? View.VISIBLE : View.GONE);
+            else
+                binding.FABSearchDevices.setVisibility(View.GONE);
+        });
+        
+        enableBluetoothLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result ->
+            {
+                if (result.getResultCode() == Activity.RESULT_OK)
+                    Toast.makeText(this, "Bluetooth enabled successfully", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    showBluetoothTurnOnRationale();
+                    Toast.makeText(this, "Bluetooth enabling denied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        );
 
-	/**
-	 * Run the configuration.
-	 */
-	private void RunBluetoothConfiguration()
-	{
-		// Checks if the current device has Bluetooth.
-		BluetoothHandler bHandler = new BluetoothHandler();
-		if (!bHandler.IsAvailable())
-		{
-			Lumos.Show(this, R.string.WelcomeSetup_BluetoothNotAvailable);
-			return;
-		}
+        BluetoothAdapter bluetoothAdapter = android.bluetooth.BluetoothAdapter.getDefaultAdapter();
+        if (bluetoothAdapter == null)
+        {
+            // Device doesn't support Bluetooth
+            Toast.makeText(this, "Device doesn't support Bluetooth", Toast.LENGTH_LONG).show();
+            finish();
+        }
+        else
+        {
+            requestBluetoothEnable();
+        }
+    }
 
-		// Checks if there's Bluetooth configured.
-		DatabaseAccess dbAccess = new DatabaseAccess(this, getString(R.string.DatabaseName));
-		Intent startActivity;
-		if (dbAccess.ReadBluetoothConfiguration().size() == 0)
-			startActivity = new Intent(MainActivity.this, BluetoothConnection.class);
-		else
-			startActivity =
-				new Intent(MainActivity.this, IluminusBluetoothActivity.class);
-		startActivity(startActivity);
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
+    private void requestBluetoothEnable()
+    {
+        Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        enableBluetoothLauncher.launch(enableBtIntent);
+    }
+
+    private void showBluetoothTurnOnRationale()
+    {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        builder
+            .setTitle("Bluetooth Enabled Required")
+            .setMessage("Bluetooth need to be enabled for this feature.")
+            .setPositiveButton("Grant Permissions", (dialog, id) -> this.requestBluetoothEnable())
+            .setNegativeButton("Não permitir", (dialog, id) ->
+            {
+                Toast.makeText(this, "Permissão negada. Aplicação será fechada.", Toast.LENGTH_SHORT).show();
+                this.finish();
+            });
+        
+        // Create the AlertDialog.
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

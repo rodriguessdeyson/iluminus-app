@@ -430,9 +430,12 @@ public class IluminusBluetoothActivity extends Activity implements View.OnClickL
 						int flColor = ((ColorDrawable)selectedColor.getBackground()).getColor();
 						SendCommand("L", flColor);
 						ColorPickerSelected.setPureColor(flColor);
-						ColorPickerSelected
-							.selectByHsv(flColor);
-						break;
+                        try {
+                            ColorPickerSelected.selectByHsvColor(flColor);
+                        } catch (IllegalAccessException e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
 					}
 				}
 				break;

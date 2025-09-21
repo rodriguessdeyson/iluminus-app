@@ -1,13 +1,11 @@
 package com.rad.Database;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rad.Database.models.BluetoothDevicesModel;
-import com.rad.Database.models.BlynkDeviceModel;
 import com.rad.Database.models.ColorHistory;
 
 import java.text.ParseException;
@@ -23,17 +21,17 @@ public class DatabaseAccess
 	/**
 	 * Local instance of SQLiteDatabase to manipulate the .db file.
 	 */
-	private SQLiteDatabase SQLiteDatabase;
+	private SQLiteDatabase sqliteDatabase;
 
 	/**
 	 * Activity context references.
 	 */
-	private Context AppContext;
+	private Context appContext;
 
 	/**
 	 * Name of the database to be opened.
 	 */
-	private String Database;
+	private String database;
 
 	/**
 	 * Initialize an objective of type DatabaseAccess.
@@ -42,8 +40,8 @@ public class DatabaseAccess
 	 */
 	public DatabaseAccess(Context ctx, String database)
 	{
-		this.AppContext = ctx;
-		this.Database = database;
+		this.appContext = ctx;
+		this.database = database;
 	}
 
 	/**
@@ -52,11 +50,11 @@ public class DatabaseAccess
 	public void CreateDatabase()
 	{
 		// Create the database informed.
-		SQLiteDatabase = AppContext
-				.openOrCreateDatabase(Database, Context.MODE_PRIVATE, null);
+		sqliteDatabase = appContext
+			.openOrCreateDatabase(database, Context.MODE_PRIVATE, null);
 
 		// Create a table to persist all the colors history.
-		SQLiteDatabase.execSQL(
+		sqliteDatabase.execSQL(
 				"CREATE TABLE IF NOT EXISTS COLORHISTORY(" +
 						"Id INTEGER PRIMARY KEY AUTOINCREMENT," +
 						"A INTEGER," +
@@ -66,27 +64,15 @@ public class DatabaseAccess
 						"DateTime TEXT)");
 
 		// Create a table to configure the devices to connect.
-		SQLiteDatabase.execSQL(
+		sqliteDatabase.execSQL(
 				"CREATE TABLE IF NOT EXISTS BLUETOOTHCONFIGURATION(" +
 						"Id INTEGER PRIMARY KEY AUTOINCREMENT," +
 						"DeviceName TEXT," +
 						"DeviceAddress TEXT," +
 						"ServiceUUID TEXT);");
 
-		// Create a table to configure the devices to connect.
-		SQLiteDatabase.execSQL(
-				"CREATE TABLE IF NOT EXISTS BLYNKCONFIGURATION(" +
-						"Id INTEGER PRIMARY KEY AUTOINCREMENT," +
-						"Name        TEXT," +
-						"AuthToken   TEXT," +
-						"MergedRGB BOOLEAN,"+
-						"PINR        TEXT," +
-						"PING        TEXT," +
-						"PINB        TEXT," +
-						"PIN   TEXT);");
-
 		// Create a table to manipulate add show.
-		SQLiteDatabase.execSQL(
+		sqliteDatabase.execSQL(
 				"CREATE TABLE IF NOT EXISTS ADMONITORING(" +
 						"Id             INTEGER PRIMARY KEY AUTOINCREMENT," +
 						"ShowedTime     TEXT NOT NULL)");
@@ -97,8 +83,8 @@ public class DatabaseAccess
 	 */
 	private void OpenDatabase()
 	{
-		SQLiteDatabase = AppContext
-				.openOrCreateDatabase(Database, Context.MODE_PRIVATE, null);
+		sqliteDatabase = appContext
+			.openOrCreateDatabase(database, Context.MODE_PRIVATE, null);
 	}
 
 	/**
@@ -106,8 +92,8 @@ public class DatabaseAccess
 	 */
 	private void CloseDatabase()
 	{
-		if (SQLiteDatabase.isOpen())
-			SQLiteDatabase.close();
+		if (sqliteDatabase.isOpen())
+			sqliteDatabase.close();
 	}
 
 	/**
@@ -117,7 +103,7 @@ public class DatabaseAccess
 	public void Insert(BluetoothDevicesModel configuration)
 	{
 		OpenDatabase();
-		SQLiteDatabase.execSQL(
+		sqliteDatabase.execSQL(
 				"INSERT INTO BLUETOOTHCONFIGURATION(" +
 						"DeviceName,"        +
 						"DeviceAddress,"     +
@@ -130,39 +116,12 @@ public class DatabaseAccess
 	}
 
 	/**
-	 * Inserts into opened database a new blynk configuration.
-	 * @param configuration a brand new configuration
-	 */
-	public void Insert(BlynkDeviceModel configuration)
-	{
-		OpenDatabase();
-		SQLiteDatabase.execSQL(
-			"INSERT INTO BLYNKCONFIGURATION(" +
-				"Name,"      +
-				"AuthToken," +
-				"MergedRGB," +
-				"PINR,"      +
-				"PING,"      +
-				"PINB,"      +
-				"PIN)"       +
-				"VALUES("            +
-					"'"+ configuration.getName()  + "'," +
-					"'"+ configuration.getAuth()  + "'," +
-					"'"+ configuration.isMerged() + "'," +
-					"'"+ configuration.getPinR()  + "'," +
-					"'"+ configuration.getPinG()  + "'," +
-					"'"+ configuration.getPinB()  + "'," +
-					"'"+ configuration.getPin()   + "')" + ";");
-		CloseDatabase();
-	}
-
-	/**
 	 * Insert a color to color history in database.
 	 */
 	public void Insert(ColorHistory colorHistory)
 	{
 		OpenDatabase();
-		SQLiteDatabase.execSQL(""            +
+		sqliteDatabase.execSQL(""            +
 				"INSERT INTO COLORHISTORY("  +
 				"A,"                         +
 				"R,"                         +
@@ -185,7 +144,7 @@ public class DatabaseAccess
 	public void Insert(String dateTime)
 	{
 		OpenDatabase();
-		SQLiteDatabase.execSQL(
+		sqliteDatabase.execSQL(
 				"INSERT INTO ADMONITORING(" +
 						"ShowedTime)"    +
 						"VALUES("           +
@@ -199,8 +158,8 @@ public class DatabaseAccess
 	public void DeleteColorHistory()
 	{
 		OpenDatabase();
-		SQLiteDatabase.delete("COLORHISTORY", null, null);
-		SQLiteDatabase.execSQL("VACUUM");
+		sqliteDatabase.delete("COLORHISTORY", null, null);
+		sqliteDatabase.execSQL("VACUUM");
 		CloseDatabase();
 	}
 
@@ -218,7 +177,7 @@ public class DatabaseAccess
 
 		// Get all devices configured.
 		OpenDatabase();
-		Cursor dbCursor = SQLiteDatabase.rawQuery(selectQuery, null);
+		Cursor dbCursor = sqliteDatabase.rawQuery(selectQuery, null);
 
 		// If rows exist, get the values.
 		if (dbCursor.getCount() > 0)
@@ -254,7 +213,7 @@ public class DatabaseAccess
 
 		// Get all devices configured.
 		OpenDatabase();
-		Cursor dbCursor = SQLiteDatabase.rawQuery(selectQuery, null);
+		Cursor dbCursor = sqliteDatabase.rawQuery(selectQuery, null);
 
 		// If rows exist, get the values.
 		if (dbCursor.getCount() > 0)
@@ -274,80 +233,6 @@ public class DatabaseAccess
 	}
 
 	/**
-	 * Reads the blynk configurations already in database.
-	 * @return A list of configurations.
-	 */
-	public ArrayList<BlynkDeviceModel> ReadBlynkConfiguration()
-	{
-		// Create an configuration list with all devices configured.
-		ArrayList<BlynkDeviceModel> configurations = new ArrayList<>();
-
-		// Creates the query to retrieve all devices.
-		String selectQuery = "SELECT * FROM BLYNKCONFIGURATION;";
-
-		// Get all devices configured.
-		OpenDatabase();
-		Cursor dbCursor = SQLiteDatabase.rawQuery(selectQuery, null);
-
-		// If rows exist, get the values.
-		if (dbCursor.getCount() > 0)
-		{
-			while(dbCursor.moveToNext())
-			{
-				BlynkDeviceModel configuration = new BlynkDeviceModel();
-				configuration.setId(dbCursor.getInt(     0));
-				configuration.setName(dbCursor.getString(1));
-				configuration.setAuth(dbCursor.getString(2));
-				configuration.setMerged(dbCursor.getInt( 3));
-				configuration.setPinR(dbCursor.getString(4));
-				configuration.setPinG(dbCursor.getString(5));
-				configuration.setPinB(dbCursor.getString(6));
-				configuration.setPin(dbCursor.getString( 7));
-				configurations.add(configuration);
-			}
-		}
-		dbCursor.close();
-		CloseDatabase();
-		return configurations;
-	}
-
-	/**
-	 * Deletes one of the row.
-	 * @param id Id of the device.
-	 */
-	public void DeleteBlynkSettingById(int id)
-	{
-		OpenDatabase();
-		String table = "BLYNKCONFIGURATION";
-		String whereClause = "Id=?";
-		String[] whereArgs = new String[] { String.valueOf(id) };
-		SQLiteDatabase.delete(table, whereClause, whereArgs);
-		CloseDatabase();
-	}
-
-	/**
-	 * Updates the settings of blynk device.
-	 * @param blynkModel Blynk setting
-	 */
-	public void UpdateBlynk(BlynkDeviceModel blynkModel)
-	{
-		OpenDatabase();
-		String table = "BLYNKCONFIGURATION";
-		String whereClause = "Id=?";
-		String[] whereArgs = new String[] { String.valueOf(blynkModel.getId()) };
-		ContentValues contentValues = new ContentValues();
-		contentValues.put("Name",      blynkModel.getName());
-		contentValues.put("AuthToken", blynkModel.getAuth());
-		contentValues.put("MergedRGB", blynkModel.isMerged());
-		contentValues.put("PINR",      blynkModel.getPinR());
-		contentValues.put("PING",      blynkModel.getPinG());
-		contentValues.put("PINB",      blynkModel.getPinB());
-		contentValues.put("PIN",       blynkModel.getPin());
-		SQLiteDatabase.update(table, contentValues, whereClause, whereArgs);
-		CloseDatabase();
-	}
-
-	/**
 	 * Updates the dateTime that an ad was showed.
 	 */
 	public void UpdateLastAdShown()
@@ -356,7 +241,7 @@ public class DatabaseAccess
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		Date date = new Date();
 		OpenDatabase();
-		SQLiteDatabase.execSQL(
+		sqliteDatabase.execSQL(
 				"UPDATE ADMONITORING SET " +
 						"ShowedTime =" + "'" + dateFormat.format(date) + "'" +
 						"WHERE Id =" + "'" + 1 + "'" + ";");
@@ -373,7 +258,7 @@ public class DatabaseAccess
 		String selectQuery = "SELECT * FROM ADMONITORING;";
 
 		OpenDatabase();
-		Cursor dbCursor = SQLiteDatabase.rawQuery(selectQuery, null);
+		Cursor dbCursor = sqliteDatabase.rawQuery(selectQuery, null);
 
 		// If rows exist, get the values.
 		if (dbCursor.getCount() > 0)

@@ -1,11 +1,13 @@
 package com.rad.Bluetooth;
 
+import android.Manifest;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothHealth;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
 
@@ -20,6 +22,8 @@ import java.util.UUID;
 import static android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE;
 import static android.bluetooth.BluetoothDevice.EXTRA_DEVICE;
 
+import androidx.core.app.ActivityCompat;
+
 /**
  * Allows to create an object of BluetoothHandler to control the Bluetooth device.
  */
@@ -30,7 +34,7 @@ public class BluetoothHandler
 	/**
 	 * Allows to manipulate the Bluetooth adapter.
 	 */
-	private BluetoothAdapter BluetoothAdapter;
+	private final BluetoothAdapter BluetoothAdapter;
 
 	//endregion
 
@@ -143,7 +147,7 @@ public class BluetoothHandler
 	 */
 	public void SearchDevices()
 	{
-		if (!BluetoothAdapter.isDiscovering())
+        if (!BluetoothAdapter.isDiscovering())
 			BluetoothAdapter.startDiscovery();
 	}
 

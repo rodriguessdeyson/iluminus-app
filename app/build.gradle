@@ -1,14 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
     defaultConfig {
+        compileSdk 34
         applicationId "com.rad.Iluminus"
         minSdkVersion 24
-        targetSdkVersion 33
-        versionCode 1
+        targetSdkVersion 34
+        versionCode 5
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,17 +19,17 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    namespace 'com.rad.iluminus'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     implementation 'com.github.skydoves:colorpickerview:2.2.4'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'com.google.android.gms:play-services-ads:21.5.0'
-    implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
 }

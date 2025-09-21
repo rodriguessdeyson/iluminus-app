@@ -1,6 +1,8 @@
 package com.rad.iluminus;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +17,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,8 +39,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.BLUETOOTH;
+import static android.Manifest.permission.BLUETOOTH_CONNECT;
+import static android.Manifest.permission.BLUETOOTH_SCAN;
 import static android.bluetooth.BluetoothAdapter.ACTION_DISCOVERY_FINISHED;
 import static android.bluetooth.BluetoothAdapter.ACTION_DISCOVERY_STARTED;
+import static android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE;
 import static android.bluetooth.BluetoothAdapter.ACTION_STATE_CHANGED;
 import static android.bluetooth.BluetoothAdapter.STATE_OFF;
 import static android.bluetooth.BluetoothDevice.ACTION_FOUND;
@@ -44,6 +54,11 @@ import static android.os.Build.VERSION.SDK_INT;
 public class BluetoothConnection extends AppCompatActivity
 {
 	//region Attributes
+
+	/**
+	 * Allows to manipulate the Bluetooth adapter.
+	 */
+	private BluetoothAdapter bluetoothAdapter;
 
 	/**
 	 * Flag to handle activity request.
@@ -90,6 +105,8 @@ public class BluetoothConnection extends AppCompatActivity
 	 */
 	private IntentFilter Filter;
 
+	private ActivityResultLauncher<Intent> enableBluetoothLauncher;
+
 	//endregion
 
 	//region Views
@@ -115,6 +132,31 @@ public class BluetoothConnection extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_configure_bluetoothdevice);
 
+		bluetoothAdapter = android.bluetooth.BluetoothAdapter.getDefaultAdapter();
+
+		enableBluetoothLauncher = registerForActivityResult(
+			new ActivityResultContracts.StartActivityForResult(), result ->
+			{
+				if (result.getResultCode() == Activity.RESULT_OK)
+				{
+					// Bluetooth enabled successfully
+					Toast.makeText(this, "Bluetooth Enabled", Toast.LENGTH_SHORT).show();
+				}
+				else if (result.getResultCode() == Activity.RESULT_CANCELED)
+				{
+					// User canceled enabling Bluetooth
+					Toast.makeText(this, "Bluetooth Not Enabled", Toast.LENGTH_SHORT).show();
+				}
+				else
+				{
+					// User denied Bluetooth enabling
+					Toast.makeText(this, "Bluetooth Not Enabled", Toast.LENGTH_SHORT).show();
+				}
+			}
+		);
+
+		checkAndEnableBluetooth();
+
 		// Initialize all controls.
 		StartViewContents();
 
@@ -132,9 +174,6 @@ public class BluetoothConnection extends AppCompatActivity
 	protected void onResume()
 	{
 		super.onResume();
-		registerReceiver(ReceiverStartBluetooth, Filter);
-		registerReceiver(SearchingReceiver, Filter);
-		SearchDevices();
 	}
 
 
@@ -145,15 +184,6 @@ public class BluetoothConnection extends AppCompatActivity
 	protected void onPause()
 	{
 		super.onPause();
-		if (ReceiverStartBluetooth != null)
-		{
-			try
-			{
-				unregisterReceiver(ReceiverStartBluetooth);
-				unregisterReceiver(SearchingReceiver);
-			}
-			catch (Exception e) {e.printStackTrace();}
-		}
 	}
 
 	/**
@@ -169,6 +199,29 @@ public class BluetoothConnection extends AppCompatActivity
 	//endregion
 
 	//region Method
+
+	private void checkAndEnableBluetooth()
+	{
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+		if (bluetoothAdapter == null)
+		{
+			// Device doesn't support Bluetooth
+			Toast.makeText(this, "Bluetooth not supported", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		if (!bluetoothAdapter.isEnabled())
+		{
+			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			enableBluetoothLauncher.launch(enableBtIntent);
+		}
+		else
+		{
+			// Bluetooth already enabled
+			Toast.makeText(this, "Bluetooth is already enabled", Toast.LENGTH_SHORT).show();
+		}
+	}
 
 	/**
 	 * Method to configure users app interface.
@@ -190,21 +243,13 @@ public class BluetoothConnection extends AppCompatActivity
 		IDatabase           = new DatabaseAccess(this, getString(R.string.DatabaseName));
 		Filter              = new IntentFilter();
 		ListAdapter         = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, 0);
-		android.widget.ListView listView  = findViewById(R.id.ListViewBluetoothDevices);
-		ProgressSearch = new Alert(this, Alert.ProgressType.SEARCHING_PROGRESS);
+		ProgressSearch      = new Alert(this, Alert.ProgressType.SEARCHING_PROGRESS);
+		ListView listView   = findViewById(R.id.ListViewBluetoothDevices);
 		if (listView != null)
 		{
 			listView.setAdapter(ListAdapter);
 			listView.setOnItemClickListener(OnDevicesListClickListener);
 		}
-	}
-
-	/**
-	 * Turns bluetooth on.
-	 */
-	private void TurnBluetoothOnForResult()
-	{
-		startActivityForResult(Bluetooth.TurnOn(), ActivityRequestCode);
 	}
 
 	/**
@@ -230,7 +275,6 @@ public class BluetoothConnection extends AppCompatActivity
 		FloatingActionScan.setOnClickListener(v ->
 		{
 			ListAdapter.clear();
-			SearchDevices();
 		});
 	}
 
@@ -253,7 +297,7 @@ public class BluetoothConnection extends AppCompatActivity
 
 				// If the database contains no device, insert the select one.
 				// Else, checks if the device is already in database.
-				if (devices.size() == 0)
+				if (devices.isEmpty())
 					IDatabase.Insert(device);
 				else
 				{
@@ -278,114 +322,9 @@ public class BluetoothConnection extends AppCompatActivity
 		};
 
 	/**
-	 * Starts the bluetooth searching task.
-	 */
-	private void SearchDevices()
-	{
-		if (!Bluetooth.IsEnabled())
-			TurnBluetoothOnForResult();
-		SearchUnboundedBluetoothDevices();
-	}
-
-	/**
-	 * Method to search unbounded devices.
-	 */
-	private void SearchUnboundedBluetoothDevices()
-	{
-		if (!ListAdapter.isEmpty())
-			ListAdapter.clear();
-		try { Bluetooth.SearchDevices(); }
-		catch (Exception e) { e.printStackTrace(); }
-	}
-
-	/**
-	 * Method to ask user's permissions.
-	 */
-	private void TurnPermissionsOn()
-	{
-		if (IsPermissionGranted())
-			ActivityCompat.requestPermissions(this, new String[] { ACCESS_COARSE_LOCATION},
-					PermissionsRequestCode);
-	}
-
-	/**
-	 * Check if the Coarse location is granted.
-	 * @return Returns false if the device has already granted location access. True, otherwise.
-	 */
-	private boolean IsPermissionGranted()
-	{
-		return ContextCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) !=
-			PackageManager.PERMISSION_GRANTED;
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data)
-	{
-		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == ActivityRequestCode)
-		{
-			switch (resultCode)
-			{
-				case RESULT_OK:
-					TurnPermissionsOn();
-					break;
-
-				case RESULT_CANCELED:
-					Lumos.Show(getApplicationContext(), R.string.WelcomeSetup_BluetoothNotEnabled);
-					finish();
-					break;
-			}
-		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions,
-		@NotNull int[] grantResults)
-	{
-		// If request is cancelled, the result arrays are empty.
-		if (requestCode == PermissionsRequestCode)
-		{
-			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-			{
-				Vibrator vibe = (Vibrator)
-					BluetoothConnection.this.getSystemService(VIBRATOR_SERVICE);
-				if (vibe.hasVibrator())
-				{
-					if (SDK_INT >= Build.VERSION_CODES.O)
-						vibe.vibrate(VibrationEffect.createOneShot(100, 100));
-					else
-						vibe.vibrate(100);
-				}
-			}
-			else
-			{
-				Lumos.Show(getApplicationContext(), R.string.WelcomeSetup_LocationNotEnabled);
-				finish();
-			}
-		}
-	}
-
-	/**
-	 * BroadcastReceiver to map all Bluetooth activities.
-	 */
-	BroadcastReceiver ReceiverStartBluetooth = new BroadcastReceiver()
-	{
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			String action = intent.getAction();
-			if (ACTION_STATE_CHANGED.equals(action))
-			{
-				if (Bluetooth.GetBluetoothState() == STATE_OFF)
-					TurnBluetoothOnForResult();
-			}
-		}
-	};
-
-	/**
 	 * BroadcastReceiver to capture all events filtered of bluetooth actions.
 	 */
-	BroadcastReceiver SearchingReceiver = new BroadcastReceiver()
+	BroadcastReceiver bluetoothReceiver = new BroadcastReceiver()
 	{
 		@Override
 		public void onReceive(Context context, Intent intent)
@@ -455,6 +394,7 @@ public class BluetoothConnection extends AppCompatActivity
 			}
 		}
 	};
+
 
 	//endregion
 }

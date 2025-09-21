@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.rad.iluminus.FragmentSearchDevice">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/MaterialCardTip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:cardBackgroundColor="@color/md_theme_tertiaryContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/md_theme_tertiaryContainer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/drawable_lightbulb"
+                    android:tint="@color/md_theme_onTertiaryContainer">
+
+                </com.google.android.material.imageview.ShapeableImageView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/TextViewHeaderSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:padding="16dp"
+                    android:text="Mantenha o seu smartphone próximo ao dispositivo que deseja conectar..."
+                    android:textColor="@color/md_theme_onTertiaryContainer"
+                    android:textSize="14sp">
+
+                </com.google.android.material.textview.MaterialTextView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/MaterialCardViewSetup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/MaterialCardTip"
+            app:layout_constraintVertical_bias="0.0"
+            app:strokeColor="@color/md_theme_surfaceContainer">
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/TextViewHeaderTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pesquisando dispositivos..."
+                    android:textColor="@color/md_theme_primary"
+                    android:textSize="15sp" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animation_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="lottie_colors.json"
+                    app:lottie_loop="true"
+                    app:lottie_speed="0.5" />
+
+                <ListView
+                    android:id="@+id/ListViewBluetoothDevices"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:nestedScrollingEnabled="true"
+                    android:paddingTop="5dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
