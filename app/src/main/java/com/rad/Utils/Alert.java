@@ -108,28 +108,21 @@ public class Alert
 		AlertDialog.Builder aBuilder;
 		if (type == ProgressType.OK)
 		{
-			aBuilder = new AlertDialog.Builder(ct, R.style.AlertDialog);
+			aBuilder = new AlertDialog.Builder(ct);
 			aBuilder
 				.setTitle(title)
 				.setMessage(message)
 				.setCancelable(false)
-				.setPositiveButton(R.string.OkDialog, (dialog, which) -> Dismiss());
+				.setPositiveButton("Ok", (dialog, which) -> Dismiss());
 		}
 		else
 		{
 			aBuilder = new AlertDialog.Builder(ct);
 			aBuilder.setCancelable(false);
-			switch (type)
-			{
-				case SEARCHING_PROGRESS:
-					aBuilder.setView(R.layout.layout_progress_searching);
-					break;
-				case CONNECTING_PROGRESS:
-					aBuilder.setView(R.layout.layout_progress_connecting);
-					break;
-				case CONNECTING_SERVER:
-					aBuilder.setView(R.layout.layout_progress_connecting_server);
-					break;
+			switch (type) {
+				case SEARCHING_PROGRESS -> aBuilder.setView(R.layout.layout_progress_searching);
+				case CONNECTING_PROGRESS -> aBuilder.setView(R.layout.layout_progress_connecting);
+				default -> throw new IllegalStateException("Unexpected value: " + type);
 			}
 		}
 		return aBuilder.create();

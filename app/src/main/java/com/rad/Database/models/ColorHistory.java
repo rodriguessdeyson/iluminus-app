@@ -4,8 +4,6 @@ import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 
-import com.rad.iluminus.IluminusBluetoothActivity;
-
 public class ColorHistory
 {
 	/**
@@ -107,16 +105,6 @@ public class ColorHistory
 	private String getSavedTime()
 	{
 		return SavedTime;
-	}
-
-	//endregion
-
-	//region Overrides
-
-	@NonNull @Override
-	public String toString()
-	{
-		return (IluminusBluetoothActivity.ColorHistoryDate + getSavedTime());
 	}
 
 	//endregion

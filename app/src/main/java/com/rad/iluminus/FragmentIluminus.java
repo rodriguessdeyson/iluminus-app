@@ -1,24 +1,16 @@
 package com.rad.iluminus;
 
-import android.animation.Animator;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.rad.adapters.BluetoothDeviceListViewAdapter;
 import com.rad.iluminus.databinding.FragmentIluminusBinding;
-import com.rad.iluminus.databinding.FragmentMainBinding;
-import com.rad.iluminus.databinding.FragmentPermissionBinding;
-import com.rad.iluminus.databinding.FragmentSearchDeviceBinding;
 import com.rad.models.BluetoothDeviceModel;
 
 public class FragmentIluminus extends Fragment {
@@ -40,11 +32,6 @@ public class FragmentIluminus extends Fragment {
 		Bundle savedInstanceState)
 	{
 		binding = FragmentIluminusBinding.inflate(inflater, container, false);
-		z
-		binding.ColorPickerView.setOnTouchListener(v, motionEvent -> {
-		
-		});
-		
 		return binding.getRoot();
 	}
 

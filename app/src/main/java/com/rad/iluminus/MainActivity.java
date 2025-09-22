@@ -7,17 +7,14 @@ import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
-import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -83,10 +80,6 @@ public class MainActivity extends AppCompatActivity {
             // Device doesn't support Bluetooth
             Toast.makeText(this, "Device doesn't support Bluetooth", Toast.LENGTH_LONG).show();
             finish();
-        }
-        else
-        {
-            requestBluetoothEnable();
         }
     }
 

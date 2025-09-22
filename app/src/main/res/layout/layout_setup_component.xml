@@ -29,6 +29,7 @@
                 android:layout_height="150dp"
                 app:lottie_fileName="lottie_colors.json"
                 app:lottie_loop="true"
+                app:lottie_repeatMode="reverse"
                 app:lottie_autoPlay="true" />
 
             <LinearLayout
