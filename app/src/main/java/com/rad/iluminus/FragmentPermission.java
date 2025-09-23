@@ -60,7 +60,7 @@ public class FragmentPermission extends Fragment {
         locationLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(),
             isGranted ->
             {
-                if (isGranted)
+                if (Boolean.TRUE.equals(isGranted))
                 {
                     binding.animationAllowLocationView.setRepeatCount(0);
                     binding.animationAllowLocationView.setAnimation("lottie_enabled.json");
