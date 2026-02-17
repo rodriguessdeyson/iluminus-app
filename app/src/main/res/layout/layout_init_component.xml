@@ -56,6 +56,31 @@
                     android:textColor="@color/md_theme_onSurfaceVariant"
                     android:textSize="16sp" />
 
+                <!-- Auto-Connect UI Elements -->
+                <LinearLayout
+                    android:id="@+id/LinearLayoutLoading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/ProgressBarLoading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
+
+                    <TextView
+                        android:id="@+id/TextViewLoadingStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Connecting..."
+                        android:textSize="14sp" />
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/ButtonSearchDevice"
                     android:layout_width="100dp"

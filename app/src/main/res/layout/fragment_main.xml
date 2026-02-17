@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.rad.iluminus.FragmentMain">
+    tools:context="com.rad.iluminus.app.FragmentMain">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
                     android:padding="16dp"
-                    android:text="Para que o aplicativo funcione adequadamente, você poderá ser solicitado a permissão para acessar alguns recursos, como o localização e bluetooth do aparelho"
+                    android:text="Para que o aplicativo funcione adequadamente, você poderá ser solicitado a permissão para acessar alguns recursos."
                     android:textColor="@color/md_theme_onTertiaryContainer"
                     android:textSize="14sp">
 

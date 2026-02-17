@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/NestedScrollView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context="com.rad.iluminus.FragmentIluminus">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
@@ -46,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:padding="16dp"
-                    android:text="Para favoritar uma cor, clique e segure no seletor de cores até sentir uma vibração"
+                    android:text="Para favoritar uma cor, clique e segure no botão enviar até sentir uma vibração"
                     android:textColor="@color/md_theme_onTertiaryContainer"
                     android:textSize="14sp">
 
@@ -63,185 +56,180 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/MaterialCardColorSetup"
-            android:layout_width="0dp"
+        android:id="@+id/MaterialCardColorSetup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MaterialCardTooltip"
+        app:strokeColor="@color/md_theme_surfaceContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/md_theme_surfaceContainer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/MaterialCardTooltip"
-            app:layout_constraintVertical_bias="0.0"
-            app:strokeColor="@color/md_theme_surfaceContainer">
+            android:gravity="center|top"
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/TextViewParametersTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Cor"
-                            android:textColor="@color/md_theme_primary"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/TextViewParametersSubTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Select a color below"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/ButtonPreviousColor"
-                        style="?attr/materialIconButtonFilledStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="Histórico"
-                        app:icon="@drawable/drawable_history" />
-
-                </LinearLayout>
-
-
-                <com.skydoves.colorpickerview.ColorPickerView
-                    android:id="@+id/ColorPickerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_marginTop="16dp">
-
-                </com.skydoves.colorpickerview.ColorPickerView>
-
-                <LinearLayout
-                    android:id="@+id/LinearLayoutBrightnessTool"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/TextViewBrightness"
+                        android:id="@+id/TextViewParametersTitle"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Brightness"
-                        android:textSize="15sp" />
-
-                    <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
-                        android:id="@+id/BrightnessSlide"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="10dp"
-                        app:borderColor_BrightnessSlider="?attr/colorPrimaryDark"
-                        app:borderSize_BrightnessSlider="1"
-                        app:selector_BrightnessSlider="@drawable/wheel" />
+                        android:layout_height="wrap_content"
+                        android:text="Cor"
+                        android:textColor="@color/md_theme_primary"
+                        android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/TextViewAlpha"
+                        android:id="@+id/TextViewParametersSubTitle"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="15dp"
-                        android:text="Alpha"
+                        android:layout_height="wrap_content"
+                        android:text="Select a color below"
                         android:textSize="15sp" />
-
-                    <com.skydoves.colorpickerview.sliders.AlphaSlideBar
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_marginTop="10dp"></com.skydoves.colorpickerview.sliders.AlphaSlideBar>
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/ButtonPreviousColor"
+                    style="?attr/materialIconButtonFilledStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Histórico"
+                    app:icon="@drawable/drawable_history" />
+
+                <Button
+                    android:id="@+id/ButtonFavorite"
+                    style="?attr/materialIconButtonFilledStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="Favoritos"
+                    app:icon="@drawable/drawable_favorite" />
+
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+
+            <com.skydoves.colorpickerview.ColorPickerView
+                android:id="@+id/ColorPickerView"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp">
+
+            </com.skydoves.colorpickerview.ColorPickerView>
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutBrightnessTool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/TextViewBrightness"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Brightness"
+                    android:textSize="15sp" />
+
+                <com.skydoves.colorpickerview.sliders.BrightnessSlideBar
+                    android:id="@+id/BrightnessSlide"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    app:borderColor_BrightnessSlider="?attr/colorPrimaryDark"
+                    app:borderSize_BrightnessSlider="1"
+                    app:selector_BrightnessSlider="@drawable/wheel" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/MaterialCardControlSetup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/md_theme_surfaceContainer"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/MaterialCardColorSetup"
-            app:layout_constraintVertical_bias="0.0"
-            app:strokeColor="@color/md_theme_surfaceContainer">
+        android:id="@+id/MaterialCardControlSetup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MaterialCardColorSetup"
+        app:layout_constraintVertical_bias="0.0"
+        app:strokeColor="@color/md_theme_surfaceContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="16dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/TextViewControlTitle"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:text="Configurações"
+                        android:textColor="@color/md_theme_primary"
+                        android:textSize="20sp" />
 
-                        <TextView
-                            android:id="@+id/TextViewControlTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Configurações"
-                            android:textColor="@color/md_theme_primary"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/TextViewControlSubTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Ligar, desligar e modificar cor" />
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/ButtonReset"
-                        style="?attr/materialIconButtonFilledStyle"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/TextViewControlSubTitle"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:contentDescription="Histórico"
-                        app:icon="@drawable/drawable_power" />
+                        android:text="Ligar, desligar e modificar cor" />
                 </LinearLayout>
 
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:indeterminate="true"
-                    android:visibility="invisible"></com.google.android.material.progressindicator.LinearProgressIndicator>
-
                 <Button
-                    style="?attr/materialIconButtonOutlinedStyle"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Send"></Button>
-
+                    android:id="@+id/ButtonReset"
+                    style="?attr/materialIconButtonFilledStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Histórico"
+                    app:icon="@drawable/drawable_power" />
             </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:indeterminate="true"
+                android:visibility="invisible"></com.google.android.material.progressindicator.LinearProgressIndicator>
+
+            <Button
+                android:id="@+id/ButtonSendColor"
+                style="?attr/materialIconButtonOutlinedStyle"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Send"></Button>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
