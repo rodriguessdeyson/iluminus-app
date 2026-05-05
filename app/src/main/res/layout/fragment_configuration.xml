@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="24dp"
+    tools:context="com.rad.iluminus.app.FragmentConfiguration">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configure Seu Dispositivo"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/MaterialCardTooltip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:cardBackgroundColor="@color/md_theme_tertiaryContainer"
+        app:strokeColor="@color/md_theme_tertiaryContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:scaleType="centerInside"
+                android:src="@drawable/drawable_lightbulb"
+                android:tint="@color/md_theme_onTertiaryContainer">
+
+            </com.google.android.material.imageview.ShapeableImageView>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TextViewHeaderSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:padding="16dp"
+                android:text="Entre com o endereço IP do dispositivo, caso não saiba, faça o escaneamento para localizá-lo!"
+                android:textColor="@color/md_theme_onTertiaryContainer"
+                android:textSize="14sp">
+
+            </com.google.android.material.textview.MaterialTextView>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="IP Endereço (e.g. 192.168.4.1)"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etIpAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:text="192.168.4.1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnScanNetwork"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Escanear rede"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btnSaveAndConnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvar &amp; Conectar"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        tools:text="Status: Não conectado"/>
+
+</LinearLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/MaterialCardViewInit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+        app:strokeColor="@color/md_theme_surfaceContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:id="@+id/LinearLayoutContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_view"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:lottie_fileName="lottie_colors.json"
+                app:lottie_loop="true"
+                app:lottie_repeatMode="restart"
+                app:lottie_autoPlay="true" />
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutHeader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/TextViewHeaderTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="iLuminus"
+                    android:textColor="@color/md_theme_primary"
+                    android:textSize="34sp" />
+
+                <TextView
+                    android:id="@+id/TextViewHeaderSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Click next to connect your device"
+                    android:textColor="@color/md_theme_onSurfaceVariant"
+                    android:textSize="16sp" />
+
+                <!-- Auto-Connect UI Elements -->
+                <LinearLayout
+                    android:id="@+id/LinearLayoutLoading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp">
+
+                    <ProgressBar
+                        android:id="@+id/ProgressBarLoading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true" />
+
+                    <TextView
+                        android:id="@+id/TextViewLoadingStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Connecting..."
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/ButtonSearchDevice"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="5dp"
+                    android:text="Next" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

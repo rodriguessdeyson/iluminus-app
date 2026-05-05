@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/FragmentMain">
+
+    <fragment
+        android:id="@+id/FragmentMain"
+        android:name="com.rad.iluminus.app.FragmentMain"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_FragmentMain_to_FragmentConfiguration"
+            app:destination="@id/FragmentConfiguration" />
+            
+        <action
+            android:id="@+id/action_FragmentMain_to_FragmentIluminus"
+            app:destination="@id/FragmentIluminus" />
+    </fragment>
+    
+    <fragment
+        android:id="@+id/FragmentConfiguration"
+        android:name="com.rad.iluminus.app.FragmentConfiguration"
+        android:label="Configuration"
+        tools:layout="@layout/fragment_configuration">
+        <action
+            android:id="@+id/action_FragmentConfiguration_to_FragmentIluminus"
+            app:destination="@id/FragmentIluminus" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/FragmentIluminus"
+        android:name="com.rad.iluminus.app.FragmentIluminus"
+        android:label="@string/fourth_fragment_label" >
+        <argument
+            android:name="enable_fab"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_FragmentIluminus_to_FragmentConfiguration"
+            app:destination="@id/FragmentConfiguration" />
+    </fragment>
+
+</navigation>
