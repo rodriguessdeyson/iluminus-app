@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">iLuminus</string>
+    <string name="title_activity_main">iLuminus</string>
+    <string name="package_name">com.rad.iluminus</string>
+    <string name="custom_url_scheme">com.rad.iluminus</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  O ESP8266 do iLuminus só fala HTTP simples (sem TLS) na rede local, em um IP
+  que muda conforme o roteador. O Android bloqueia HTTP por padrão desde a API 28
+  e não aceita faixas de IP em <domain-config>, por isso a liberação é geral.
+  O app em si continua servido em https://localhost pelo Capacitor.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
