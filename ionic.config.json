@@ -1,0 +1,7 @@
+{
+  "name": "iluminus-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
