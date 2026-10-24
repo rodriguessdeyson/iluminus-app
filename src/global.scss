@@ -1,0 +1,45 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/*
+ * O CSS do Ionic fica na layer "ionic", declarada antes das layers do Tailwind.
+ * Sem isso, por estar fora de layer, ele vencia os utilitários do Tailwind
+ * (ex.: o h1 do typography.css ignorava text-[17px]; o normalize zerava border-radius).
+ * Este arquivo vem primeiro em angular.json → styles para a ordem valer.
+ */
+@layer ionic, theme, base, components, utilities;
+
+/* Core CSS required for Ionic components to work properly */
+@import url("@ionic/angular/css/core.css") layer(ionic);
+
+/* Basic CSS for apps built with Ionic */
+@import url("@ionic/angular/css/normalize.css") layer(ionic);
+@import url("@ionic/angular/css/structure.css") layer(ionic);
+@import url("@ionic/angular/css/typography.css") layer(ionic);
+@import url("@ionic/angular/css/display.css") layer(ionic);
+
+/* Optional CSS utils that can be commented out */
+@import url("@ionic/angular/css/padding.css") layer(ionic);
+@import url("@ionic/angular/css/float-elements.css") layer(ionic);
+@import url("@ionic/angular/css/text-alignment.css") layer(ionic);
+@import url("@ionic/angular/css/text-transformation.css") layer(ionic);
+@import url("@ionic/angular/css/flex-utils.css") layer(ionic);
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import url("@ionic/angular/css/palettes/dark.system.css") layer(ionic);
