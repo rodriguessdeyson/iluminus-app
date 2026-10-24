@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>iLuminus · Favoritos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B0E}
+a{color:#F2F3F5;text-decoration:none}a:hover{color:#FFFFFF}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #0A0B0E; color: #F2F3F5; font-family: Manrope, system-ui, sans-serif; overflow: hidden">
+
+  <header style="padding: 20px 20px 8px; display: flex; flex-direction: column; gap: 14px">
+    <h1 style="margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em">Favoritos</h1>
+    <div role="tablist" aria-label="Ver" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 14px; background: #14161B">
+      <button type="button" role="tab" aria-selected="{{favSel}}" onClick="{{showFav}}" style="height: 40px; border-radius: 10px; border: none; cursor: pointer; font-size: 14px; font-weight: 700; background: {{favBg}}; color: {{favInk}}">Salvas</button>
+      <button type="button" role="tab" aria-selected="{{recSel}}" onClick="{{showRec}}" style="height: 40px; border-radius: 10px; border: none; cursor: pointer; font-size: 14px; font-weight: 700; background: {{recBg}}; color: {{recInk}}">Recentes</button>
+    </div>
+  </header>
+
+  <div style="flex: 1; overflow-y: auto; padding: 8px 20px 20px; display: flex; flex-direction: column; gap: 12px">
+    <sc-if value="{{isFav}}" hint-placeholder-val="{{ true }}">
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+        <sc-for list="{{favs}}" as="f" hint-placeholder-count="6">
+          <button type="button" onClick="{{f.pick}}" style="border-radius: 20px; background: #14161B; color: #F2F3F5; cursor: pointer; padding: 10px; display: flex; flex-direction: column; gap: 10px; text-align: left; border: {{f.border}}">
+            <span style="height: 84px; width: 100%; border-radius: 14px; display: flex; align-items: flex-end; justify-content: flex-start; padding: 10px; box-sizing: border-box; background: {{f.css}}">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; padding: 3px 6px; border-radius: 6px; background: rgba(10,11,14,0.72); color: #F2F3F5">{{f.hex}}</span>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 2px; padding: 0 4px 4px">
+              <span style="font-size: 14px; font-weight: 700">{{f.name}}</span>
+              <span style="font-size: 12px; color: #A3A9B4">{{f.meta}}</span>
+            </span>
+          </button>
+        </sc-for>
+        <a href="Main.dc.html" style="border-radius: 20px; border: 1.5px dashed rgba(255,255,255,0.16); min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 700; color: #C9CDD4">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+          Salvar cor atual
+        </a>
+      </div>
+    </sc-if>
+    <sc-if value="{{isRec}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <sc-for list="{{recents}}" as="r" hint-placeholder-count="6">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 10px 10px 10px 12px; border-radius: 16px; background: #14161B">
+            <span style="width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; display: block; background: {{r.css}}"></span>
+            <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600">{{r.hex}}</span>
+              <span style="font-size: 12px; color: #A3A9B4">{{r.meta}}</span>
+            </span>
+            <button type="button" onClick="{{r.pick}}" style="height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: #1C1F26; color: #F2F3F5; font-size: 13px; font-weight: 700; cursor: pointer">Aplicar</button>
+          </div>
+        </sc-for>
+        <button type="button" style="height: 44px; margin-top: 4px; border-radius: 12px; border: none; background: transparent; color: #F59E8B; font-size: 14px; font-weight: 700; cursor: pointer">Limpar histórico</button>
+      </div>
+    </sc-if>
+  </div>
+
+  <nav aria-label="Navegação principal" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 8px 8px 14px; background: #0F1014; border-top: 1px solid rgba(255,255,255,0.07)">
+    <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; font-size: 12px; font-weight: 600; color: #8E95A1">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-3.5 10.9V15h7v-1.1A6 6 0 0 0 12 3z"></path></svg>
+      </span>Luz
+    </a>
+    <a href="Effects.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; font-size: 12px; font-weight: 600; color: #8E95A1">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"></path><path d="M19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z"></path></svg>
+      </span>Efeitos
+    </a>
+    <a href="Favorites.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; font-size: 12px; font-weight: 700; color: #F2F3F5">
+      <span style="width: 56px; height: 30px; border-radius: 15px; display: flex; align-items: center; justify-content: center; background: rgba(13,89,242,0.22)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"></path></svg>
+      </span>Favoritos
+    </a>
+    <a href="Devices.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; font-size: 12px; font-weight: 600; color: #8E95A1">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="13" width="18" height="7" rx="2"></rect><path d="M7 16.5h.01M11 16.5h.01"></path><path d="M8.5 9.5a5 5 0 0 1 7 0M5.5 6.5a9.5 9.5 0 0 1 13 0"></path></svg>
+      </span>Dispositivos
+    </a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  hsv(h, s, v) {
+    const f = (n) => { const k = (n + h / 60) % 6; return v - v * s * Math.max(0, Math.min(k, 4 - k, 1)); };
+    return [f(5), f(3), f(1)].map((x) => Math.round(x * 255));
+  }
+  css(c) { return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')'; }
+  hex(c) { return '#' + c.map((x) => x.toString(16).padStart(2, '0')).join('').toUpperCase(); }
+  renderVals() {
+    const st = Object.assign({ tab: 'fav', picked: 0 }, this.state || {});
+    const favDefs = [
+      [220, 95, 85, 'Foco', 'Cor sólida · 85%'], [26, 95, 70, 'Fim de tarde', 'Cor sólida · 70%'],
+      [278, 70, 60, 'Cinema', 'Pulsar · 60%'], [34, 22, 100, 'Leitura', 'Cor sólida · 100%'],
+      [180, 85, 75, 'Relaxar', 'Oceano · 75%']
+    ];
+    const favs = favDefs.map((d, i) => {
+      const c = this.hsv(d[0], d[1] / 100, d[2] / 100);
+      return { css: this.css(c), hex: this.hex(c), name: d[3], meta: d[4], border: st.picked === i ? '1.5px solid #F2F3F5' : '1.5px solid transparent', pick: () => this.setState({ picked: i }) };
+    });
+    const recDefs = [[220, 95, 85, 'Cor sólida · há 2 min'], [0, 88, 90, 'Faíscas · há 18 min'], [145, 80, 65, 'Cor sólida · há 1 h'], [48, 85, 100, 'Cor sólida · ontem'], [300, 60, 40, 'Dormir · ontem'], [200, 90, 80, 'Scanner · 2 dias']];
+    const recents = recDefs.map((d) => { const c = this.hsv(d[0], d[1] / 100, d[2] / 100); return { css: this.css(c), hex: this.hex(c), meta: d[3], pick: () => this.setState({}) }; });
+    const fav = st.tab === 'fav';
+    return {
+      favs, recents, isFav: fav, isRec: !fav,
+      favSel: fav ? 'true' : 'false', recSel: fav ? 'false' : 'true',
+      favBg: fav ? '#F2F3F5' : 'transparent', favInk: fav ? '#0A0B0E' : '#C9CDD4',
+      recBg: fav ? 'transparent' : '#F2F3F5', recInk: fav ? '#C9CDD4' : '#0A0B0E',
+      showFav: () => this.setState({ tab: 'fav' }), showRec: () => this.setState({ tab: 'rec' })
+    };
+  }
+}
+</script>
+</body>
+</html>

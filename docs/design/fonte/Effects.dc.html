@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>iLuminus · Efeitos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B0E}
+a{color:#F2F3F5;text-decoration:none}a:hover{color:#FFFFFF}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; display: flex; flex-direction: column; background: #0A0B0E; color: #F2F3F5; font-family: Manrope, system-ui, sans-serif; overflow: hidden">
+
+  <header style="padding: 20px 20px 8px; display: flex; flex-direction: column; gap: 4px">
+    <h1 style="margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em">Efeitos</h1>
+    <p style="margin: 0; font-size: 13px; color: #A3A9B4">Prévia dos 9 LEDs da sua fita</p>
+  </header>
+
+  <div style="flex: 1; overflow-y: auto; padding: 8px 20px 20px; display: flex; flex-direction: column; gap: 16px">
+
+    <section style="background: #14161B; border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <div style="display: flex; flex-direction: column; gap: 2px">
+          <span style="font-size: 12px; font-weight: 600; color: #A3A9B4">Tocando agora</span>
+          <span style="font-size: 18px; font-weight: 800">{{currentLabel}}</span>
+        </div>
+        <a href="Main.dc.html" style="height: 40px; padding: 0 14px; border-radius: 12px; background: #1C1F26; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700">
+          <span style="width: 14px; height: 14px; border-radius: 50%; display: block; background: {{baseCss}}"></span>Cor base
+        </a>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 8px; padding: 14px 10px; border-radius: 14px; background: #0A0B0E">
+        <sc-for list="{{currentDots}}" as="d" hint-placeholder-count="9">
+          <span style="aspect-ratio: 1; border-radius: 50%; display: block; background: {{d.c}}; box-shadow: {{d.glow}}"></span>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="display: flex; gap: 8px">
+      <sc-for list="{{filters}}" as="f" hint-placeholder-count="3">
+        <button type="button" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" style="height: 36px; padding: 0 14px; border-radius: 18px; font-size: 13px; font-weight: 700; cursor: pointer; background: {{f.bg}}; color: {{f.ink}}; border: {{f.border}}">{{f.label}}</button>
+      </sc-for>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <sc-for list="{{effects}}" as="fx" hint-placeholder-count="12">
+        <button type="button" onClick="{{fx.pick}}" aria-pressed="{{fx.pressed}}" style="min-height: 88px; border-radius: 18px; background: #14161B; color: #F2F3F5; cursor: pointer; padding: 14px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; text-align: left; border: {{fx.border}}">
+          <span style="display: flex; gap: 4px">
+            <sc-for list="{{fx.dots}}" as="d" hint-placeholder-count="9">
+              <span style="width: 10px; height: 10px; border-radius: 50%; display: block; background: {{d}}"></span>
+            </sc-for>
+          </span>
+          <span style="display: flex; flex-direction: column; gap: 2px">
+            <span style="font-size: 14px; font-weight: 700">{{fx.label}}</span>
+            <span style="font-size: 12px; color: #A3A9B4">{{fx.tag}}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+
+  <nav aria-label="Navegação principal" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 8px 8px 14px; background: #0F1014; border-top: 1px solid rgba(255,255,255,0.07)">
+    <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; font-size: 12px; font-weight: 600; color: #8E95A1">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-3.5 10.9V15h7v-1.1A6 6 0 0 0 12 3z"></path></svg>
+      </span>Luz
+    </a>
+    <a href="Effects.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; font-size: 12px; font-weight: 700; color: #F2F3F5">
+      <span style="width: 56px; height: 30px; border-radius: 15px; display: flex; align-items: center; justify-content: center; background: {{tabPill}}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"></path><path d="M19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z"></path></svg>
+      </span>Efeitos
+    </a>
+    <a href="Favorites.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; font-size: 12px; font-weight: 600; color: #8E95A1">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"></path></svg>
+      </span>Favoritos
+    </a>
+    <a href="Devices.dc.html" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 0; font-size: 12px; font-weight: 600; color: #8E95A1">
+      <span style="width: 56px; height: 30px; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="13" width="18" height="7" rx="2"></rect><path d="M7 16.5h.01M11 16.5h.01"></path><path d="M8.5 9.5a5 5 0 0 1 7 0M5.5 6.5a9.5 9.5 0 0 1 13 0"></path></svg>
+      </span>Dispositivos
+    </a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  hsv(h, s, v) {
+    const f = (n) => { const k = (n + h / 60) % 6; return v - v * s * Math.max(0, Math.min(k, 4 - k, 1)); };
+    return [f(5), f(3), f(1)].map((x) => Math.round(x * 255));
+  }
+  css(c) { return 'rgb(' + c[0] + ',' + c[1] + ',' + c[2] + ')'; }
+  rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+  dotsRaw(cmd, c, n) {
+    const out = []; const mid = (n - 1) / 2; const fire = [0, 18, 34, 8, 44, 24, 4, 38, 14];
+    const dim = (k) => c.map((x) => Math.round(x * k));
+    for (let i = 0; i < n; i++) {
+      let col; const d = Math.abs(i - mid);
+      if (cmd === 'L') col = c;
+      else if (cmd === 'R') col = this.hsv(i * 360 / n, 1, 1);
+      else if (cmd === 'T') col = i % 3 === 0 ? this.hsv(i * 40, 1, 1) : [28, 31, 38];
+      else if (cmd === 'SP') col = (i === 2 || i === 6) ? [255, 255, 255] : dim(0.4);
+      else if (cmd === 'SS') col = this.hsv((330 + i * 9) % 360, 0.85, 1 - i * 0.04);
+      else if (cmd === 'OC') col = this.hsv(180 + i * 6, 0.85, i % 2 ? 0.55 : 1);
+      else if (cmd === 'FR') col = this.hsv(95 + i * 6, 0.8, i % 2 ? 0.5 : 0.85);
+      else if (cmd === 'N') col = i % 4 === 1 ? [255, 255, 255] : dim(0.55);
+      else if (cmd === 'C') col = dim(Math.max(0.1, 1 - d * 0.45));
+      else if (cmd === 'SL') col = dim(0.22);
+      else if (cmd === 'O') col = dim(0.15 + (i / (n - 1)) * 0.85);
+      else if (cmd === 'FE') col = this.hsv(fire[i % 9], 1, 1 - (i % 3) * 0.15);
+      else col = dim(Math.max(0.12, 1 - d * 0.2));
+      out.push(col);
+    }
+    return out;
+  }
+  renderVals() {
+    const st = Object.assign({ fx: 'R', filter: 'all' }, this.state || {});
+    const base = this.hsv(220, 0.95, 1);
+    const defs = [
+      ['L', 'Cor sólida', true], ['R', 'Arco-íris', false], ['T', 'Perseguição', false], ['SP', 'Faíscas', true],
+      ['SS', 'Pôr do sol', false], ['OC', 'Oceano', false], ['FR', 'Floresta', false], ['N', 'Neve', true],
+      ['C', 'Scanner', true], ['SL', 'Dormir', true], ['O', 'Pulsar', true], ['FE', 'Fogo', false]
+    ];
+    const shown = defs.filter((d) => st.filter === 'all' || (st.filter === 'mine' ? d[2] : !d[2]));
+    const effects = shown.map((d) => ({
+      label: d[1], tag: d[2] ? 'Usa sua cor' : 'Paleta própria',
+      dots: this.dotsRaw(d[0], base, 9).map((c) => this.css(c)),
+      pressed: st.fx === d[0] ? 'true' : 'false',
+      border: st.fx === d[0] ? '1.5px solid ' + this.rgba(base, 0.95) : '1.5px solid rgba(255,255,255,0.06)',
+      pick: () => this.setState({ fx: d[0] })
+    }));
+    const cur = defs.find((d) => d[0] === st.fx) || defs[0];
+    const currentDots = this.dotsRaw(cur[0], base, 9).map((c) => ({ c: this.css(c), glow: '0 0 14px 2px ' + this.rgba(c, 0.55) }));
+    const filters = [['all', 'Todos'], ['mine', 'Com sua cor'], ['palette', 'Paletas']].map((f) => {
+      const on = st.filter === f[0];
+      return { label: f[1], pressed: on ? 'true' : 'false', bg: on ? '#F2F3F5' : '#14161B', ink: on ? '#0A0B0E' : '#C9CDD4', border: on ? 'none' : '1px solid rgba(255,255,255,0.08)', pick: () => this.setState({ filter: f[0] }) };
+    });
+    return { effects, filters, currentDots, currentLabel: cur[1], baseCss: this.css(base), tabPill: this.rgba(base, 0.22) };
+  }
+}
+</script>
+</body>
+</html>

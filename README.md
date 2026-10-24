@@ -8,6 +8,13 @@ Um único código roda no **Android** (via Capacitor) e na **web**.
 - Favoritos e histórico das cores usadas.
 - Encontra a fita na rede (UDP no Android) ou conecta pelo IP.
 
+<p>
+  <img src="docs/design/telas/01-android-luz.png" width="240" alt="Tela Luz no Android">
+  <img src="docs/design/telas/02-android-efeitos.png" width="240" alt="Tela Efeitos no Android">
+</p>
+
+Mockups, princípios e tokens do design: [`docs/design`](docs/design/README.md).
+
 ## Stack
 
 | Camada | Tecnologia |
